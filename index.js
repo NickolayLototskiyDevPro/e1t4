@@ -15,49 +15,51 @@ let ProjectModule = (function(){
     }
 
     let findParticipant = function(functor, callbackFunction) {
-        // if(this.isBusy == true) return false;
+        if(this.isBusy === true) return false;
         this.isBusy = true;
         setTimeout(() => {
             let participant = this.participants.find(functor);
             if(participant != undefined){
+                this.isBusy = false;
                 callbackFunction (participant);
             }else{
+                this.isBusy = false;
                 callbackFunction (null);
-            }
-            this.isBusy = false;
+            }   
         }, 10);
     }
 
     let findParticipants = function (functor, callbackFunction) {
-        // if(this.isBusy == true) return false;
+        if(this.isBusy === true) return false;
         this.isBusy = true;
         setTimeout(() => {
             let participantsArray = this.participants.filter(functor);
-            callbackFunction (participantsArray);      
             this.isBusy = false;
+            callbackFunction (participantsArray);         
         }, 10);
     }
 
     let addParticipant = function(participantObject, callbackFunction) {
-        // if(this.isBusy == true) return false;
+        if(this.isBusy === true) return false;
         this.isBusy = true;
         setTimeout(() => {
             try{
                 if(typeof participantObject == 'object' && 'seniorityLevel' in participantObject){
                     this.participants.push(participantObject);
+                    this.isBusy = false;
                     callbackFunction();     
                 }else{
                    throw new Error('Wrong Data!');
                 }
             }catch(err){
+                this.isBusy = false;
                 callbackFunction(err);   
-            }
-            this.isBusy = false;
+            }                
         }, 10);
     }
 
     let removeParticipant = function(participantObject, callbackFunction) {
-        // if(this.isBusy == true) return false;
+        if(this.isBusy === true) return false;
         this.isBusy = true;
         setTimeout(() => {
             let removedParticipant = null;
@@ -67,18 +69,17 @@ let ProjectModule = (function(){
                     break;
                     }                        
                 }
-            callbackFunction(removedParticipant);        
             this.isBusy = false;
+            callbackFunction(removedParticipant);
         }, 10);
     }
 
     let setPricing = function(participantPriceObject, callbackFunction) {
-        // if(this.isBusy == true) return false;
         this.isBusy = true;
         setTimeout(() => {
            Object.assign(this.pricing, participantPriceObject);
-           callbackFunction();
            this.isBusy = false;
+           callbackFunction();           
         }, 10);
     }
 
